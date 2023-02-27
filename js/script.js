@@ -50,15 +50,17 @@ function validaCPF(cpf) {
 }
 
 const btnValidaCPF = document.getElementById("validate");
-
-btnValidaCPF.addEventListener("click", function() {
+btnValidaCPF.addEventListener("click", function (event) {
+  event.preventDefault();
   const cpfInput = document.getElementById("cpf-input");
   const cpf = cpfInput.value;
 
-  // valida o CPF e exibe uma mensagem de acordo com o resultado
-  if (validaCPF(cpf)) {
-    alert("CPF válido!");
+  const resultado = validaCPF(cpf);
+  const cpfValidation = document.getElementById("cpf-validation");
+
+  if (resultado) {
+    cpfValidation.innerText = "CPF válido!";
   } else {
-    alert("CPF inválido!");
+    cpfValidation.innerText = "CPF inválido!";
   }
 });
