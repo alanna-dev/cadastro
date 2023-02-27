@@ -1,52 +1,64 @@
+// Um CPF válido deve seguir as seguintes regras:
 
-function validarCPF() {
-  const cpf = document.getElementById("cpf").value;
-  let numerosCPF = cpf.replace(/[^\d]/g, ""); // remove pontos e traços do CPF
-  if (numerosCPF.length !== 11) {
-    document.getElementById("resultado").innerHTML = "CPF inválido";
+// Ter 11 dígitos
+// Não pode ser uma sequência de números iguais (ex: 111.111.111-11)
+// Deve seguir um algoritmo para o cálculo dos dígitos verificadores.      
+
+function validaCPF(cpf) {
+  // Verifica se o CPF tem 11 dígitos
+  if (cpf.length !== 11) {
     return false;
   }
 
-  // calcula o primeiro dígito verificador
+  // Verifica se o CPF é uma sequência de números iguais
+  const sequencia = cpf[0].repeat(11);
+  if (sequencia === cpf) {
+    return false;
+  }
+
+  // Calcula os dígitos verificadores
   let soma = 0;
   for (let i = 0; i < 9; i++) {
-    soma += parseInt(numerosCPF.charAt(i)) * (10 - i);
-  }
-  let primeiroDigito = 11 - (soma % 11);
-  if (primeiroDigito > 9) {
-    primeiroDigito = 0;
+    soma += parseInt(cpf.charAt(i)) * (10 - i);
   }
 
-  // calcula o segundo dígito verificador
-  soma = 0;
-  for (let i = 0; i < 10; i++) {
-    soma += parseInt(numerosCPF.charAt(i)) * (11 - i);
-  }
-  let segundoDigito = 11 - (soma % 11);
-  if (segundoDigito > 9) {
-    segundoDigito = 0;
+  let resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) {
+    resto = 0;
   }
 
-  // verifica se os dígitos calculados são iguais aos dígitos informados
-  if (primeiroDigito === parseInt(numerosCPF.charAt(9)) &&
-      segundoDigito === parseInt(numerosCPF.charAt(10))) {
-    document.getElementById("resultado").innerHTML = "CPF válido";
-    return true;
-  } else {
-    document.getElementById("resultado").innerHTML = "CPF inválido";
+  if (resto !== parseInt(cpf.charAt(9))) {
     return false;
   }
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) {
+    soma += parseInt(cpf.charAt(i)) * (11 - i);
+  }
+
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) {
+    resto = 0;
+  }
+
+  if (resto !== parseInt(cpf.charAt(10))) {
+    return false;
+  }
+
+  // CPF válido
+  return true;
 }
 
-const form = document.getElementById('form-validador');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-  const cpf = document.getElementById('cpf').value;
-  const resultado = document.getElementById('resultado');
+const btnValidaCPF = document.getElementById("validate");
 
-  if (validarCPF(cpf)) {
-    resultado.innerHTML = "CPF válido";
+btnValidaCPF.addEventListener("click", function() {
+  const cpfInput = document.getElementById("cpf-input");
+  const cpf = cpfInput.value;
+
+  // valida o CPF e exibe uma mensagem de acordo com o resultado
+  if (validaCPF(cpf)) {
+    alert("CPF válido!");
   } else {
-    resultado.innerHTML = "CPF inválido";
+    alert("CPF inválido!");
   }
 });
