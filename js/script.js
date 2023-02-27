@@ -47,6 +47,7 @@ function validaCPF(cpf) {
 
   // CPF válido
   return true;
+  
 }
 
 const btnValidaCPF = document.getElementById("validate");
@@ -63,4 +64,29 @@ btnValidaCPF.addEventListener("click", function (event) {
   } else {
     cpfValidation.innerText = "CPF inválido!";
   }
+
+  cpfInput.value = ""; // limpa o valor do campo de entrada do CPF
 });
+
+
+// Adiciona hifens e pontos ao CPF
+
+// const cpfInput = document.getElementById("cpf-input");
+// cpfInput.addEventListener("input", function () {
+//   let cpf = cpfInput.value;
+//   cpf = cpf.replace(/\D/g, ""); // remove todos os caracteres não numéricos
+//   cpf = cpf.slice(0, 11); // limita o CPF a 11 caracteres
+
+//   if (cpf.length > 3) {
+//     cpf = cpf.slice(0, 3) + "." + cpf.slice(3);
+//   }
+//   if (cpf.length > 7) {
+//     cpf = cpf.slice(0, 7) + "." + cpf.slice(7);
+//   }
+//   if (cpf.length > 11) {
+//     cpf = cpf.slice(0, 11) + "-" + cpf.slice(11);
+//   }
+
+//   cpfInput.value = cpf;
+  
+// });
